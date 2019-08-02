@@ -28,32 +28,26 @@ class MazeSolverAlgoTeamK:
     # Setter method for the maze dimension of the rows
     def setDimRows(self, rows):
         self.dimRows=rows
-        print("dimRows = " , self.dimRows)
 
     # Setter method for the maze dimension of the columns
     def setDimCols(self, cols):
         self.dimCols=cols
-        print("DimCols =", self.dimCols)
         
     # Setter method for the column of the start position 
     def setStartCol(self, col):
         self.startCol =col
-        print("startCol=", self.startCol)
 
     # Setter method for the row of the start position 
     def setStartRow(self, row):
         self.startRow = row
-        print("startRow= ",self.startRow)
 
     # Setter method for the column of the end position 
     def setEndCol(self, col):
         self.endCol=col
-        print("endCol=", self.endCol)
         
     # Setter method for the row of the end position 
     def setEndRow(self, row):
         self.endRow = row
-        print("endRow=", self.endRow)
 
     # Setter method for blocked grid elements
     def setBlocked(self,row ,col):
@@ -93,9 +87,23 @@ class MazeSolverAlgoTeamK:
 
     # loads a maze from a file pathToConfigFile
     def loadMaze(self,pathToConfigFile):
+        self.grid = numpy.loadtxt(pathToConfigFile,delimiter=',',dtype=int)
+        print(self.grid)
+        self.dimRows = self.grid.shape[1]
+        self.dimCols = self.grid.shape[0]
+
+
+        start = numpy.where(self.grid ==2)
+        self.startRow = start[0][0]
+        self.startCol = start[1][0]
+
+        ende = numpy.where(self.grid ==3)
+        self.endRow = ende[0][0]
+        self.endCol = ende[1][0]
+
+        print(self.dimRows, self.dimCols, self.startRow, self.startCol, self.endRow, self.endCol)        
         # check whether a function numpy.loadtxt() could be useful
-        # TODO: this is you job now :-)
-        pass
+        
 
     # clears the complete maze 
     def clearMaze(self):
@@ -156,13 +164,13 @@ class MazeSolverAlgoTeamK:
 
 
 if __name__ == '__main__':
-    mg = MazeSolverAlgoTemplate()
+    mg = MazeSolverAlgoTeamK()
 
 
     # HINT: in case you want to develop the solver without MQTT messages and without always
     #       loading new different mazes --> just load any maze you would like from a file
 
-    #mg.loadMaze("..\\MazeExamples\\Maze1.txt")
+    mg.loadMaze("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze1.txt")
     #solutionString = mg.solveMaze()
     #print(solutionString)
    
