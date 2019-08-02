@@ -47,7 +47,6 @@ class MazeSolverClient:
 
     # Implement MQTT receive message function
     def onMessage(self, master, obj, msg):
-        # TODO: this is you job now :-)
         # HINT: it might be a good idea to look into file Framework\Test\test_mqtt_subscriber.py
         
         topic=str(msg.topic)
@@ -57,16 +56,18 @@ class MazeSolverClient:
             if payload =="clear":
                 self.solver.clearMaze()
             elif payload =="start":
-                self.solver.startMaze()
-                self.solver.printMaze()
+                self.solver.startMaze()     
             elif payload =="end":
                 self.solver.endMaze()
+                self.solver.printMaze()
             else:
                 pass
         elif topic =="/maze/dimCol":
             self.solver.setDimCols(int(payload))
+            self.solver.startMaze(self.solver.dimRows,self.solver.dimCols)
         elif topic == "/maze/dimRow":
             self.solver.setDimRows(int(payload))
+            self.solver.startMaze(self.solver.dimRows,self.solver.dimCols)
         elif topic == "/maze/startCol":
             self.solver.setStartCol(int(payload))
         elif topic =="/maze/startRow":
@@ -76,7 +77,8 @@ class MazeSolverClient:
         elif topic=="/maze/endRow":
             self.solver.setEndRow(int(payload))
         elif topic =="/maze/blocked":  
-            self.solver.setBlocked(int(payload))
+            inhalt= payload.split(",")
+            self.solver.setBlocked(int(inhalt[0]),int(inhalt[1]))
     # Implement MQTT onConnecr function
 
 
@@ -89,9 +91,8 @@ class MazeSolverClient:
         self.master.subscribe("/maze/endCol")
         self.master.subscribe("/maze/endRow")
         self.master.subscribe("/maze/blocked")
-        # TODO: this is you job now :-)
         # HINT: it might be a good idea to look into file Framework\Test\test_mqtt_subscriber.py
-        pass
+    
 
     # Initiate the solving process of the maze solver
     def solveMaze(self):
