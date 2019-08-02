@@ -101,16 +101,16 @@ class MazeSolverAlgoAStar:
 
 
     # TODO: Add a Unit Test Case --> Very good example for boundary tests and condition coverage
-    def getNeighbours(self,row,column):
+    def getNeighbours(self,row,column): #von einem bestimmten grid element
         neighbours = []
 
         # no neighbours for out-of-grid elements
-        if self.isInGrid(row,column) == False:
-            return neighbours
+        if self.isInGrid(row,column) == False: #zuerst prüfen, ob ich wirklich auf der grid bin?
+            return neighbours #leere Menge kommt zurück
 
         # no neighbours for blocked grid elements
         if self.grid[row,column] == self.OBSTACLE:
-            return neighbours
+            return neighbours #Nachbarn von blockierten Elementen interessieren mich nicht! 
     
         nextRow = row + 1    
         if (self.isInGrid(nextRow,column) is True and self.grid[nextRow][column] != self.OBSTACLE):

@@ -102,7 +102,7 @@ class MazeSolverAlgoTeamK:
         self.endCol = ende[1][0]
 
         print(self.dimRows, self.dimCols, self.startRow, self.startCol, self.endRow, self.endCol)        
-        # check whether a function numpy.loadtxt() could be useful
+    
         
 
     # clears the complete maze 
@@ -113,15 +113,48 @@ class MazeSolverAlgoTeamK:
 
     # Decides whether a certain row,column grid element is inside the maze or outside
     def isInGrid(self,row,column):
-        # TODO: this is you job now :-)
-        pass
+        if row < 0:
+            return False
+
+        if column <0:
+            return False
+
+        if row >= self.grid.shape[1]:
+            return False
+
+        if column >= self.grid.shape[0]:
+            return False  
+        return True
 
 
     # Returns a list of all grid elements neighboured to the grid element row,column
     def getNeighbours(self,row,column):
-        # TODO: this is you job now :-)
+        neighbours=[]
+
+        if self.isInGrid(row, column) == False:
+            return neighbours
+
+        if self.grid[row,column]==self.OBSTACLE:
+            return neighbours
+        
+        nextRow= row +1
+        if (self.isInGrid(nextRow, column)) is True and self.grid[nextRow][column] != self.OBSTACLE:
+            neighbours.append([nextRow,column])
+
+        lastRow = row -1
+        if (self.isInGrid(lastRow, column)) is True and self.grid[lastRow][column] != self.OBSTACLE:
+            neighbours.append([lastRow,column])
+
+        nextCol = column +1
+        if (self.isInGrid(row,nextCol)) is True and self.grid[row][nextCol]!= self.OBSTACLE:
+            neighbours.append([row,nextCol])
+
+        lastCol = column -1
+        if (self.isInGrid(row,lastCol)) is True and self.grid[row][lastCol]!= self.OBSTACLE:
+            neighbours.append([row,lastCol])
+
+        return neighbours
         # TODO: Add a Unit Test Case --> Very good example for boundary tests and condition coverage
-        pass
 
     # Gives a grid element as string, the result should be a string row,column
     def gridElementToString(self,row,col):
@@ -171,6 +204,9 @@ if __name__ == '__main__':
     #       loading new different mazes --> just load any maze you would like from a file
 
     mg.loadMaze("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze1.txt")
+    
+    versuch= mg.getNeighbours(0,2)
+    print(versuch)
     #solutionString = mg.solveMaze()
     #print(solutionString)
    
