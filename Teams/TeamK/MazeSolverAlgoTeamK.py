@@ -138,19 +138,19 @@ class MazeSolverAlgoTeamK:
             return neighbours
         
         nextRow= row +1
-        if (self.isInGrid(nextRow, column)) is True and self.grid[nextRow][column] != self.OBSTACLE:
+        if (self.isInGrid(nextRow, column)) is True and (self.grid[nextRow][column] != self.OBSTACLE):
             neighbours.append([nextRow,column])
 
         lastRow = row -1
-        if (self.isInGrid(lastRow, column)) is True and self.grid[lastRow][column] != self.OBSTACLE:
+        if (self.isInGrid(lastRow, column)) is True and (self.grid[lastRow][column] != self.OBSTACLE):
             neighbours.append([lastRow,column])
 
         nextCol = column +1
-        if (self.isInGrid(row,nextCol)) is True and self.grid[row][nextCol]!= self.OBSTACLE:
+        if (self.isInGrid(row,nextCol)) is True and (self.grid[row][nextCol]!= self.OBSTACLE):
             neighbours.append([row,nextCol])
 
         lastCol = column -1
-        if (self.isInGrid(row,lastCol)) is True and self.grid[row][lastCol]!= self.OBSTACLE:
+        if (self.isInGrid(row,lastCol)) is True and (self.grid[row][lastCol]!= self.OBSTACLE):
             neighbours.append([row,lastCol])
 
         return neighbours
@@ -165,8 +165,10 @@ class MazeSolverAlgoTeamK:
     # check whether two different grid elements are identical
     # aGrid and bGrid are both elements [row,column]
     def isSameGridElement(self, aGrid, bGrid):
-        # TODO: this is you job now :-)
-        pass
+        if (aGrid[0] == bGrid[0] and aGrid[1] == bGrid[1]):
+            return True
+            
+        return False
 
 
     # Defines a heuristic method used for A* algorithm
@@ -207,6 +209,9 @@ if __name__ == '__main__':
     
     versuch= mg.getNeighbours(0,2)
     print(versuch)
+
+    v2 = mg.isSameGridElement([0,0],[0,0])
+    print(v2)
     #solutionString = mg.solveMaze()
     #print(solutionString)
    
