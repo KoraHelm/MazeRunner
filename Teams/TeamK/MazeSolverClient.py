@@ -40,9 +40,9 @@ class MazeSolverClient:
 
     # Implement MQTT publishing function
     def publish(self, topic, message=None, qos=0, retain=False):
-        # TODO: this is you job now :-)
+        print("Published message: " , topic , " --> " , message)
+        self.master.publish(topic,message,qos,retain)
         # HINT: it might be a good idea to look into file Framework\Test\test_mqtt_publisher.py
-        pass
 
 
     # Implement MQTT receive message function
@@ -56,7 +56,9 @@ class MazeSolverClient:
             if payload =="clear":
                 self.solver.clearMaze()
             elif payload =="start":
-                self.solver.startMaze()     
+                self.solver.startMaze()  
+            elif payload =="solve":
+                self.solveMaze()   
             elif payload =="end":
                 self.solver.endMaze()
                 self.solver.printMaze()
@@ -96,17 +98,19 @@ class MazeSolverClient:
 
     # Initiate the solving process of the maze solver
     def solveMaze(self):
-        # TODO: this is you job now :-)
- 
+        for step in self.solver.solveMaze():
+            strSplit = step.split(',')
+            step_str = '{},{}'.format(strSplit[0],strSplit[1])
+            self.publish("/maze/go", step_str)
 
 
         #HINT:  don't forget to publish the results, e.g. 
         #self.publish("/maze/go" , resultString)
-        pass
+        
 
     
 if __name__ == '__main__':
     mqttclient=mqtt.Client()
-    #HINT: maybe you rename the MazeSolverAlgoTemplate class ?
+    
     solverClient = MazeSolverClient(mqttclient)
     solverClient.master.loop_forever()

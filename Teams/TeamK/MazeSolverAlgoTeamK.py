@@ -228,6 +228,8 @@ class MazeSolverAlgoTeamK:
         path.append(startKey)
         path.reverse()
         print(path)
+
+        return path    
         
  
 
@@ -237,7 +239,7 @@ class MazeSolverAlgoTeamK:
 
     # Command for starting the solving procedure
     def solveMaze(self):
-        return self.myMazeSolver()
+        return self.breadthFirstSearch()
 
 
 if __name__ == '__main__':
@@ -247,7 +249,7 @@ if __name__ == '__main__':
     # HINT: in case you want to develop the solver without MQTT messages and without always
     #       loading new different mazes --> just load any maze you would like from a file
 
-    mg.loadMaze("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze3.txt")
+    mg.loadMaze("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze1.txt")
     
     versuch= mg.getNeighbours(0,2)
     print(versuch)
