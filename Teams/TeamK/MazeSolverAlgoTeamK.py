@@ -261,7 +261,7 @@ class MazeSolverAlgoTeamK:
                     priority = new_cost + self.heuristic(endPoint, next)
                     frontier.put(next,priority)
                     came_from[nextKey]=current
-            print(came_from)
+            #print(came_from)
             #print(cost_so_far)
 
         
@@ -290,7 +290,7 @@ class MazeSolverAlgoTeamK:
 
     # Command for starting the solving procedure
     def solveMaze(self):
-        return self.breadthFirstSearch()
+        return self.aStar()
 
 
 if __name__ == '__main__':
@@ -300,7 +300,7 @@ if __name__ == '__main__':
     # HINT: in case you want to develop the solver without MQTT messages and without always
     #       loading new different mazes --> just load any maze you would like from a file
 
-    mg.loadMaze("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze2.txt")
+    mg.loadMaze("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze1.txt")
     
     versuch= mg.getNeighbours(0,2)
     print(versuch)
