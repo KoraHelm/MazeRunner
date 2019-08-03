@@ -176,9 +176,9 @@ class MazeSolverAlgoTeamK:
     # Defines a heuristic method used for A* algorithm
     # aGrid and bGrid are both elements [row,column]
     def heuristic(self, aGrid, bGrid):
-        # TODO: this is you job now :-)
+        return abs(aGrid[0] - bGrid[0]) + abs(aGrid[1] - bGrid[1])
         # HINT: a good heuristic could be the distance between to grid elements aGrid and bGrid
-        pass
+
 
     # Generates the resulting path as string from the came_from list
     def generateResultPath(self,came_from):
@@ -231,7 +231,58 @@ class MazeSolverAlgoTeamK:
 
         return path    
         
- 
+    def aStar(self):
+        start = [self.startRow, self.startCol]
+        frontier = queue.PriorityQueue()
+        frontier.put(start,0)
+        
+        startKey = self.gridElementToString(self.startRow, self.startCol)
+        came_from ={}
+        cost_so_far ={}
+
+        came_from[startKey] = None
+        cost_so_far[startKey] =0
+
+        endPoint = [self.endRow,self.endCol]
+
+        while not frontier.empty():
+            current = frontier.get()
+            currentKey = self.gridElementToString(current[0],current[1])
+
+            if self.isSameGridElement(current,endPoint):
+                break
+
+            for next in self.getNeighbours(current[0],current[1]):
+                new_cost =cost_so_far[currentKey]+1
+                nextKey = self.gridElementToString(next[0], next[1])#next, da current bereits in String gespeichert
+            
+                if nextKey not in cost_so_far or new_cost<cost_so_far[nextKey]:
+                    cost_so_far[nextKey] = new_cost
+                    priority = new_cost + self.heuristic(endPoint, next)
+                    frontier.put(next,priority)
+                    came_from[nextKey]=current
+            print(came_from)
+            #print(cost_so_far)
+
+        
+        path=[]
+        current =self.gridElementToString(self.endRow,self.endCol)
+
+        while current != startKey:
+            if current not in came_from:
+                print("Pfad konnte nicht gefunden werden")
+                break
+            elif current in came_from:
+                path.append(current)
+                current = came_from[current]
+                current = self.gridElementToString(current[0],current[1])
+            
+
+        path.append(startKey)
+        path.reverse()
+        print(path)
+
+        return path   
 
     def myMazeSolver(self):
         # TODO: this is you job now :-)
@@ -249,15 +300,19 @@ if __name__ == '__main__':
     # HINT: in case you want to develop the solver without MQTT messages and without always
     #       loading new different mazes --> just load any maze you would like from a file
 
-    mg.loadMaze("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze1.txt")
+    mg.loadMaze("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze2.txt")
     
     versuch= mg.getNeighbours(0,2)
     print(versuch)
 
     v2 = mg.isSameGridElement([0,0],[0,0])
     print(v2)
+    
+    v3 = mg.heuristic([3,1],[3,2])
+    print("Berechnung",v3)
 
-    mg.breadthFirstSearch()
+    #mg.breadthFirstSearch()
+    mg.aStar()
     #solutionString = mg.solveMaze()
     #print(solutionString)
    
