@@ -197,11 +197,11 @@ class MazeSolverAlgoBreadthFirst:
         #############################
         start = [self.setStartRow,self.setStartCol]
         frontier = queue.Queue()
-        frontier.put(start)
+        frontier.put(start)#put() --> hinzufügen
         startKey = self.gridElementToString(self.setStartRow , self.setStartCol)
 
         came_from = {}
-        came_from[startKey] = None
+        came_from[startKey] = None #vom start aus gibt es kein Feld von dem man gekommen ist
         while not frontier.empty():
             current = frontier.get()
 

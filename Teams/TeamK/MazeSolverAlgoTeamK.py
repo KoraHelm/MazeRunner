@@ -158,9 +158,11 @@ class MazeSolverAlgoTeamK:
 
     # Gives a grid element as string, the result should be a string row,column
     def gridElementToString(self,row,col):
-        # TODO: this is you job now :-)
-        # HINT: this method is used as primary key in a lookup table
-        pass
+        result = ""
+        result += str(row)
+        result += ","
+        result += str(col)
+        return result
     
     # check whether two different grid elements are identical
     # aGrid and bGrid are both elements [row,column]
@@ -180,15 +182,55 @@ class MazeSolverAlgoTeamK:
 
     # Generates the resulting path as string from the came_from list
     def generateResultPath(self,came_from):
-        # TODO: this is you job now :-)
+        
         # HINT: this method is a bit tricky as you have to invert the came_from list (follow the path from end to start)
         pass
 
-    #############################
+   #############################
     # Definition of Maze solver algorithm
     #
     # implementation taken from https://www.redblobgames.com/pathfinding/a-star/introduction.html
-    #############################
+   ##############################
+
+    def breadthFirstSearch(self):
+
+        start = [self.startRow, self.startCol]
+        frontier = queue.Queue()
+        frontier.put(start)
+        startKey = self.gridElementToString(self.startRow, self.startCol)
+        came_from ={}
+        came_from[startKey] = None
+
+        while not frontier.empty():
+            current = frontier.get()
+
+            for next in self.getNeighbours(current[0],current[1]):
+                nextKey = self.gridElementToString(next[0], next[1])#next, da current bereits in String gespeichert
+            
+                if nextKey not in came_from:
+                    frontier.put(next)
+                    came_from[nextKey]=current
+            #print(came_from)
+
+        current = self.gridElementToString(self.endRow,self.endCol)
+        path=[]
+
+        while current != startKey:
+            if current not in came_from:
+                print("Pfad konnte nicht gefunden werden")
+                break
+            elif current in came_from:
+                path.append(current)
+                current = came_from[current]
+                current = self.gridElementToString(current[0],current[1])
+            
+
+        path.append(startKey)
+        path.reverse()
+        print(path)
+        
+ 
+
     def myMazeSolver(self):
         # TODO: this is you job now :-)
         pass
@@ -205,13 +247,15 @@ if __name__ == '__main__':
     # HINT: in case you want to develop the solver without MQTT messages and without always
     #       loading new different mazes --> just load any maze you would like from a file
 
-    mg.loadMaze("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze1.txt")
+    mg.loadMaze("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze3.txt")
     
     versuch= mg.getNeighbours(0,2)
     print(versuch)
 
     v2 = mg.isSameGridElement([0,0],[0,0])
     print(v2)
+
+    mg.breadthFirstSearch()
     #solutionString = mg.solveMaze()
     #print(solutionString)
    
