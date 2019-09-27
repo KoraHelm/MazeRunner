@@ -30,7 +30,7 @@ public class MazeSolver {
 		
 		try {
 			br = new BufferedReader(new FileReader(new File("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze1.txt")));
-//			String line = br.readLine();
+//			br = new BufferedReader(new FileReader(new File("C:\\Users\\Kora\\Desktop\\Kora\\Privat\\Furtwangen\\CodeCamp\\MazeRunner\\MazeExamples\\maze2.txt")));
 			
 			String readLine;
 			int num =0;
